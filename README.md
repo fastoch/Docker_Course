@@ -277,11 +277,16 @@ The dot at the end of the command specifies the path to the Dockerfile, which is
 
 ### Run the container
 
-To run  the container, we need to specify several things:
+To run  the container, we need to specify 2 things:
 - the port mapping between the host and the container 
-  - we also need to modify the package.json file to expose the port 5173
 - the image name
 
-The command to run is: `docker run -p 5173:5173 react-docker`
+The command to run is: `docker run -p 5173:5173 react-docker`  
 
-@32/88
+But this won't work as is, because we need to expose our dev environment.  
+To do that, we need to modify the package.json file as follows:    
+
+![alt text](image.png)
+
+
+@37/88
