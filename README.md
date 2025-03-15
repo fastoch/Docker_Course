@@ -288,5 +288,35 @@ To do that, we need to modify the package.json file as follows:
 
 ![alt text](image.png)
 
+To apply the change to our container, we need to rebuild the image.  
+- First, let's stop the container: `docker stop <container_id>`
+- Then, remove it: `docker rm <container_id>`
+- Remove the image: `docker rmi <image_id>`
+- Navigate to the 'react-docker' folder: `cd react-docker`
+- Re-build the image: `docker build -t react-docker .`
+- Run the container: `docker run -p 5173:5173 react-docker`
 
-@37/88
+Now we can open a web browser and navigate to http://localhost:5173/ to see our React app running.  
+
+### Mounting the local folder into the container
+
+But now, if we go back to our code, go to the 'src/App.tsx' file and change the <h1> text, we won't see the change reflected in the browser.  
+That's because we have changed the code on our local machine, but the code in the container is still the same.  
+
+To fix this, we need to mount the current working directory into the /app directory inside the container:
+- stop the active container: `docker stop <container_id>`
+- make sure you're in the 'react-docker' folder
+- run `docker run -p 5173:5173 -v $(pwd):/app react-docker`
+
+**Note about type errors**:  
+The App.tsx file might report a lot of errors, but that's because we're using TypeScript.  
+Just run `npm i @types/react @types/react-dom` to fix the errors.  
+
+**Notes about the volume mount**:  
+If your paths contain spaces or special characters, you should enclose the entire volume argument in quotes:  
+`docker run -v "/path with spaces:/container path" my_image`
+When using Windows paths with backslashes, it's recommended to use quotes and escape the backslashes:  
+`docker run -v "C:\\path\\to\\volume:/app" my_image`
+
+
+@39/88
