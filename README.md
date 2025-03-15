@@ -160,7 +160,7 @@ Now, let's create a container from this image:
 docker run -it ubuntu
 ```
 
-# Our first custom image
+# Our first custom image (hello-docker)
 
 - open VS Code
 - create a new folder 'Docker_course' wherever you want on your local machine
@@ -169,7 +169,15 @@ docker run -it ubuntu
 - inside this folder, create an 'hello.js' file with a simple `console.log('Hello Docker!');`
 - create a Dockerfile and add the following instructions into it:
   
-![image](https://github.com/user-attachments/assets/a12f057b-ac4e-405b-b0a3-44abd825cacc)
+```dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY . .
+
+CMD ["node", "hello.js"]
+```
 
 - open a terminal in VS Code and run `cd hello-docker`
 - now build your first image by running `docker build -t hello-docker .`
@@ -180,19 +188,19 @@ We can check that our image was created by running `docker images`.
 
 Now, we can run a container from our image: `docker run hello-docker`  
 
-![image](https://github.com/user-attachments/assets/fa890201-f4df-4b34-9902-918b3f721941)  
+![alt text](image-1.png)
 
 The container immediately stops running after the main process (defined in our Dockerfile via CMD) completes its execution.  
 To keep it running, we can use `docker run -it hello-docker sh`, which puts us directly within the container OS.  
 Then, we can run `cat /etc/os-release` to check which OS our container is running on.  
 
-![image](https://github.com/user-attachments/assets/a2273cac-52b6-4b79-93e1-47529067b521)
+![alt text](image-2.png)
 
 We could also run `node hello.js` to log 'Hello Docker!' to the console.  
 
 # Publishing a custom image to the Docker Hub
 
-## React Docker Demo
+## React Docker Demo (react-docker)
 
 ### Initialize a React project
 
