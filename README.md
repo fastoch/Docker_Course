@@ -190,9 +190,11 @@ Then, we can run `cat /etc/os-release` to check which OS our container is runnin
 
 We could also run `node hello.js` to log 'Hello Docker!' to the console.  
 
-# Publishing an image to the Docker Hub
+# Publishing a custom image to the Docker Hub
 
 ## React Docker Demo
+
+### Initialize a React project
 
 To containerize our first React application, we first need to initialize a React project in VS Code.  
 - in your VS Code terminal, run `cd ..` to go back to your 'docker_course' folder
@@ -207,11 +209,64 @@ To containerize our first React application, we first need to initialize a React
 - then run `cd react-docker` to enter your React project folder
 - and we won't run `npm install` because the dependencies will be installed within our container
 
+### Create a Dockerfile
+
 Inside our newly created 'react-docker' folder, let's create a Dockerfile.  
-Copy the contents of the following Dockerfile into our Dockerfile:  
-https://github.com/adrianhajdin/docker-course/blob/main/react-docker/Dockerfile  
+- add the following instructions to the Dockerfile:
+```dockerfile
+# set the base image to create the image for our react app
+FROM node:20-alpine
+
+# create a user with permissions to run the app
+# This is done to avoid running the app as root
+# If the app is run as root, any vulnerability in the app can be exploited to gain access to the host system
+# It's a good practice to run the app as a non-root user
+RUN addgroup -S app && adduser -S -g app app
+
+# set the working directory to /app
+WORKDIR /app
+
+# copy package.json and package-lock.json to the working directory 
+# & ensure the copied files are owned by the app user
+COPY --chown=app:app package*.json ./
+
+# set the user to use when running the image and also when installing the dependencies
+USER app
+
+# install dependencies
+RUN npm install
+
+# copy the rest of the application files to the working directory 
+# & ensure the copied files are owned by the app user
+COPY --chown=app:app . .
+
+# expose port 5173 to tell Docker that the container listens on the specified network ports at runtime
+EXPOSE 5173
+
+# command to run the app
+CMD ["npm", "run", "dev"]
+```
+
+### Create a .dockerignore
+
+In our react-docker folder, create a file called .dockerignore and add the following line:  
+`node_modules`
+
+Adding node_modules to .dockerignore optimizes your Docker workflow by:
+- reducing build times, 
+- ensuring proper dependency management, 
+- and creating smaller and more secure images
+
+More details: https://www.perplexity.ai/search/what-s-the-point-of-creating-a-afotMP9zRoq0DJOeP1NgHw
+
+### Build the image
+
+- open a terminal in VS Code
+- navigate via `cd` to your 'react-docker' folder
+- run `docker build -t react-docker .`
+
+The dot at the end of the command specifies the path to the Dockerfile, which is the current directory.  
 
 
 
-
-@25/88
+@30/88
