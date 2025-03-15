@@ -248,7 +248,7 @@ RUN npm install
 # copy the rest of the application files to the working directory 
 COPY . .
 
-# expose port 5173 to tell Docker that the container listens on the specified network ports at runtime
+# expose port 5173 to tell Docker that the container listens on that port at runtime
 EXPOSE 5173
 
 # command to run the app
@@ -275,6 +275,13 @@ More details: https://www.perplexity.ai/search/what-s-the-point-of-creating-a-af
 
 The dot at the end of the command specifies the path to the Dockerfile, which is the current directory.  
 
+### Run the container
 
+To run  the container, we need to specify several things:
+- the port mapping between the host and the container 
+  - we also need to modify the package.json file to expose the port 5173
+- the image name
 
-@30/88
+The command to run is: `docker run -p 5173:5173 react-docker`
+
+@32/88
