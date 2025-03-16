@@ -300,23 +300,43 @@ Now we can open a web browser and navigate to http://localhost:5173/ to see our 
 
 ### Mounting the local folder into the container
 
-But now, if we go back to our code, go to the 'src/App.tsx' file and change the text in the h1 tag, we won't see the change reflected in the browser.  
+But now, if we go back to our code, go to the 'src/App.tsx' file and change the text in the h1 tag, we won't see the change 
+reflected in the browser, which is not ideal in a development environment...  
+
 That's because we have changed the code on our local machine, but the code in the container is still the same.  
 
 To fix this, we need to mount the current working directory into the /app directory inside the container:
 - stop the active container: `docker stop <container_id>`
 - make sure you're in the 'react-docker' folder
-- run `docker run -p 5173:5173 -v $(pwd):/app react-docker`
+- run `docker run -p 5173:5173 -v "$(pwd):/app" -v /app/node_modules react-docker`
 
-**Note about type errors**:  
+The `-v` flag stands for volume, and the `$(pwd)` command returns the current working directory.  
+The second volume is to create a node_modules folder inside the container, which is required for the app to run.  
+The dependencies that will be installed via `npm install` will be stored in this node_modules folder.  
+
+Now, our local code is linked to the container, and any changes we make locally will be immediately reflected inside the running container.   
+We can check that by going back to the 'src/App.tsx' file and changing the text in the h1 tag.  
+
+If you're using Vite with WSL2, the changes won't be reflected. That's a common issue.  
+More details: https://dev.to/proparitoshsingh/hmr-not-working-in-vite-on-wsl2-5h2k  
+
+To fix this WSL2 issue, add the following server.watch config to the vite.config file:
+```javascript
+export default defineConfig({
+  server: {
+    watch: {
+      usePolling: true, // Enable polling for file changes
+    },
+  },
+});
+```
+
+By enabling polling in Vite, you can ensure that HMR (Hot Module Replacement) works reliably with WSL2.  
+
+**Side Note about Type Errors in the App.tsx file**:  
 The App.tsx file might report a lot of errors, that's because we're using TypeScript.  
 Just run `npm i @types/react @types/react-dom` to fix the errors. This will install the necessary type definitions for React and ReactDOM.  
 
-**Notes about the volume mount**:  
-If your paths contain spaces or special characters, you should enclose the entire volume argument in quotes:  
-`docker run -v "/path with spaces:/container path" my_image`
-When using Windows paths with backslashes, it's recommended to use quotes and escape the backslashes:  
-`docker run -v "C:\\path\\to\\volume:/app" my_image`
 
 
-@39/88
+@41/88
