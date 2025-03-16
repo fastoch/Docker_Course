@@ -300,7 +300,7 @@ Now we can open a web browser and navigate to http://localhost:5173/ to see our 
 
 ### Mounting the local folder into the container
 
-But now, if we go back to our code, go to the 'src/App.tsx' file and change the <h1> text, we won't see the change reflected in the browser.  
+But now, if we go back to our code, go to the 'src/App.tsx' file and change the text in the h1 tag, we won't see the change reflected in the browser.  
 That's because we have changed the code on our local machine, but the code in the container is still the same.  
 
 To fix this, we need to mount the current working directory into the /app directory inside the container:
@@ -309,8 +309,8 @@ To fix this, we need to mount the current working directory into the /app direct
 - run `docker run -p 5173:5173 -v $(pwd):/app react-docker`
 
 **Note about type errors**:  
-The App.tsx file might report a lot of errors, but that's because we're using TypeScript.  
-Just run `npm i @types/react @types/react-dom` to fix the errors.  
+The App.tsx file might report a lot of errors, that's because we're using TypeScript.  
+Just run `npm i @types/react @types/react-dom` to fix the errors. This will install the necessary type definitions for React and ReactDOM.  
 
 **Notes about the volume mount**:  
 If your paths contain spaces or special characters, you should enclose the entire volume argument in quotes:  
