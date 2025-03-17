@@ -342,13 +342,24 @@ Now we have successfully learnt how to containerize a React application using Do
 
 ## Publish the image
 
-First, we need to create a Docker Hub account, so we can authenticate to it from the CLI.  
+First, we need to create a Docker Hub account, so we can authenticate from the CLI.  
+If we're already logged in with Docker Desktop, the authentication will be automatic.
 
 From the command-line:  
 ```bash
+# Navigate to the react-docker folder
 cd react-docker
 docker login
-
+# Publish the image
+docker tag <source_image> <docker_hub_username>/<target_image>
+docker push <docker_hub_username>/<target_image>
 ```
 
-@42/88
+![alt text](image-3.png)
+
+Now we can visit Docker Hub, sign in, and see our newly published image.  
+And other users can pull the image from Docker Hub and run it on their machines.  
+
+
+
+@44/88
