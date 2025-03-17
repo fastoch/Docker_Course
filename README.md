@@ -284,7 +284,7 @@ To run  the container, we need to specify 2 things:
 The command to run is: `docker run -p 5173:5173 react-docker`  
 
 But this won't work as is, because we need to expose our dev environment.  
-To do that, we need to modify the package.json file as follows:    
+To do that, we need to modify the scripts section in our package.json file as follows:    
 
 ![alt text](image.png)
 
@@ -360,6 +360,14 @@ docker push <docker_hub_username>/<target_image>
 Now we can visit Docker Hub, sign in, and see our newly published image.  
 And other users can pull the image from Docker Hub and run it on their machines.  
 
+# Docker Compose
+
+Now that we know the basis, let's see how we can use Docker Compose to simplify our workflow.  
+Docker Compose allows us to define and manage multiple containers as a single application.  
+
+It uses a YAML file to configure the services, networks, and volumes for our application.  
+Which enables us to run and scale the entire application with a single command: `docker compose up`.  
 
 
-@44/88
+
+@45/88
