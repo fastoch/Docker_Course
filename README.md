@@ -296,9 +296,9 @@ To apply the change to our container, we need to rebuild the image.
 - Re-build the image: `docker build -t react-docker .`
 - Run the container: `docker run -p 5173:5173 react-docker`
 
-Now we can open a web browser and navigate to http://localhost:5173/ to see our React app running.  
+Now we can open a web browser (on the host) and navigate to http://localhost:5173/ to see our React app running.  
 
-### Mounting the local folder into the container
+### Mount the local folder into the container
 
 But now, if we go back to our code, go to the 'src/App.tsx' file and change the text in the h1 tag, we won't see the change 
 reflected in the browser, which is not ideal in a development environment...  
@@ -311,8 +311,9 @@ To fix this, we need to mount the current working directory into the /app direct
 - run `docker run -p 5173:5173 -v "$(pwd):/app" -v /app/node_modules react-docker`
 
 The `-v` flag stands for volume, and the `$(pwd)` command returns the current working directory.  
+
 The second volume is to create a node_modules folder inside the container, which is required for the app to run.  
-The dependencies that will be installed via `npm install` will be stored in this node_modules folder.  
+Because the dependencies that will be installed via `npm install` will be stored in this node_modules folder.  
 
 Now, our local code is linked to the container, and any changes we make locally will be immediately reflected inside the running container.   
 We can check that by going back to the 'src/App.tsx' file and changing the text in the h1 tag.  
@@ -337,6 +338,17 @@ By enabling polling in Vite, you can ensure that HMR (Hot Module Replacement) wo
 The App.tsx file might report a lot of errors, that's because we're using TypeScript.  
 Just run `npm i @types/react @types/react-dom` to fix the errors. This will install the necessary type definitions for React and ReactDOM.  
 
+Now we have successfully learnt how to containerize a React application using Docker.  
 
+## Publish the image
 
-@41/88
+First, we need to create a Docker Hub account, so we can authenticate to it from the CLI.  
+
+From the command-line:  
+```bash
+cd react-docker
+docker login
+
+```
+
+@42/88
