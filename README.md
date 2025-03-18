@@ -365,9 +365,35 @@ And other users can pull the image from Docker Hub and run it on their machines.
 Now that we know the basis, let's see how we can use Docker Compose to simplify our workflow.  
 Docker Compose allows us to define and manage multiple containers as a single application.  
 
-It uses a YAML file to configure the services, networks, and volumes for our application.  
+It uses a YAML file (docker-compose.yaml) to configure the services, networks, and volumes for our application.  
 Which enables us to run and scale the entire application with a single command: `docker compose up`.  
 
+We don't have to run 10 commands to run 10 containers for one application.  
+We can list all the information needed to run our multi-container application in a docker-compose.yaml file, 
+and then run only one command that triggers running all the containers that make up our app.  
+
+And while we can manually create a docker-compose.yaml file on our own, Docker provides us with a command-line tool 
+that generates this file for us. It's called **docker init**.  
+
+## docker init
+
+**docker init** is a command-line utility introduced by Docker to streamline the process of containerizing applications.  
+This tool automatically generates essential Docker-related files for a project, including: 
+- *Dockerfile*
+- *compose.yaml*
+- *.dockerignore*
+
+Using **docker init**, we initialize our application with all the files needed to containerize it.  
+**docker init** allows us to specify our tech choices.  
+
+## Our second Vite project
+
+- open up a terminal in VS Code
+- navigate to our tutorial root folder, which is Docker_Course
+- run `npm create vite@latest vite-project`
+- select React and then TypeScript
+- `cd vite-project`
+- `npm install`
 
 
-@45/88
+@47/88
