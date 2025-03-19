@@ -382,6 +382,7 @@ This tool automatically generates essential Docker-related files for a project, 
 - *Dockerfile*
 - *compose.yaml*
 - *.dockerignore*
+- *README.Docker.md* (explains how to use the other Docker files)
 
 Using **docker init**, we initialize our application with all the files needed to containerize it.  
 **docker init** allows us to specify our tech choices.  
@@ -391,9 +392,19 @@ Using **docker init**, we initialize our application with all the files needed t
 - open up a terminal in VS Code
 - navigate to our tutorial root folder, which is Docker_Course
 - run `npm create vite@latest vite-project`
-- select React and then TypeScript
+- select `React` and then `TypeScript`
 - `cd vite-project`
-- `npm install`
+- run `npm install` to install Node.js dependencies
+  - It reads the `package.json` file and installs the specified packages into the `node_modules` folder
+- now we can use `docker init` to generates the Docker-related files for our project
+
+On running `docker init`, we get asked a few questions based off which it's going to generate the `compose.yaml` file:  
+- select `Node` as the application platform
+- select `npm` as your ppackage manager
+- we don't want run `npm run build` before starting the server
+- the command we want to use to start the app is `npm run dev`
+- our server will listen on port 5173
 
 
-@47/88
+
+@48/88
