@@ -382,7 +382,7 @@ This tool automatically generates essential Docker-related files for a project, 
 - *Dockerfile*
 - *compose.yaml*
 - *.dockerignore*
-- *README.Docker.md* (explains how to use the other Docker files)
+- *README.Docker.md* 
 
 Using **docker init**, we initialize our application with all the files needed to containerize it.  
 **docker init** allows us to specify our tech choices.  
@@ -405,6 +405,16 @@ On running `docker init`, we get asked a few questions based off which it's goin
 - the command we want to use to start the app is `npm run dev`
 - our server will listen on port 5173
 
+And that's it! The above `docker init` command has generated 4 Docker files for us:
+- *Dockerfile*: the file that tells Docker how to build our image
+- *.dockerignore*: a file that tells Docker which files to ignore when building the image
+- *compose.yaml*: the file that defines the services, networks, and volumes for our application
+- *README.Docker.md*: a file that explains how to use the above Docker files
+
+### A word about leveraging Docker cache
+
+https://www.kdnuggets.com/how-to-leverage-docker-cache-for-optimizing-build-speeds
 
 
-@48/88
+
+@49/88
