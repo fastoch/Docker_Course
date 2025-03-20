@@ -277,14 +277,14 @@ The dot at the end of the command specifies the path to the Dockerfile, which is
 
 ### Run the container
 
-To run  the container, we need to specify 2 things:
+To run the container, we need to specify 2 things:
 - the port mapping between the host and the container 
 - the image name
 
 The command to run is: `docker run -p 5173:5173 react-docker`  
 
-But this won't work as is, because we need to expose our dev environment.  
-To do that, we need to modify the scripts section in our package.json file as follows:    
+But this won't work as is, because we need to expose our dev environment to the host.  
+To do that, we need to modify the *dev* script in our package.json file as follows:    
 
 ![alt text](image.png)
 
@@ -441,12 +441,50 @@ services:
 The volumes section in our compose.yaml file is used to mount volumes between the host machine and the container.  
 It's similar to what we have done manually when using the `docker run` command (line 311).  
 
-
-
 ### A word about leveraging Docker cache
 
 https://www.kdnuggets.com/how-to-leverage-docker-cache-for-optimizing-build-speeds
 
+## Docker Compose up (April 2022)
+
+- Run `docker commpose up` to start the application
+
+This won't work as is, because we need to expose our dev environment to the host.  
+To do that, we need to modify the *dev* script in our package.json file as follows:
+```json
+"scripts": {
+  "dev": "vite --host",
+```
+
+And if you get a "permission denied" error:
+- restart VS Code as administrator if you're on Windows
+- run `sudo docker compose up` if you're on Mac or Linux
+
+So, now it works, we can run our application with `docker compose up`.  
+We can open up a web browser (on the host) and navigate to http://localhost:5173/ to see our React app running.  
+
+## Optimizing the DX
+
+But still, it isn't optimal for developer experience (DX).  
+Every time we make a change to our code, we need to stop the container and run `docker compose up` again.  
+
+Sure, Docker Compose solves the problem of showing up-to-date code changes through *volumes*,  
+lets us manage multiple containers in a single file, and merges the image building and running functions.  
+
+All of that is great, but it doesn't do these things automatically when we change something related to the package files,  
+or when we think it's needed to rebuild the image.  
+
+This is where our next Docker feature comes in: `docker compose watch`.  
+
+## Docker Compose watch (September 2023)
+
+This command listens for changes, and does what needs to be done, like:
+- rebuilding our app
+- restarting the container
+- and more
+
+With `docker compose watch`, we can do 3 main things: 
+- 
 
 
-@50/88
+@54/88
