@@ -1,36 +1,31 @@
-# syntax=docker/dockerfile:1
+# set the base image to create the image for our react app
+FROM node:20-alpine
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
+# create a dedicated 'app' group and an 'app' user with permissions to run the app
+# This is done to avoid running the app as root
+# If the app is run as root, any vulnerability in the app can be exploited to gain access to the host system
+RUN addgroup -S app && adduser -S -g app app
 
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
+# set the working directory to /app
+WORKDIR /app
 
-ARG NODE_VERSION=22.14.0
+# copy package.json and package-lock.json to the working directory 
+COPY package*.json ./
 
-FROM node:${NODE_VERSION}-alpine
+# change the ownership of the application files to the app user
+RUN chown -R app:app /app
 
-# Use production node environment by default (cf. compose.yaml).
-ENV NODE_ENV production
+# set the user to run the app
+USER app
 
-WORKDIR /usr/src/app
+# install dependencies
+RUN npm install
 
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.npm to speed up subsequent builds.
-# Leverage bind mounts to package.json and package-lock.json to avoid copying them into the image layer.
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
-
-# Run the application as a non-root user.
-USER node
-
-# Copy the rest of the source files into the image.
+# copy the rest of the application files to the working directory 
 COPY . .
 
-# Expose the port that the application listens on.
+# expose port 5173 to tell Docker that the container listens on the specified network ports at runtime
 EXPOSE 5173
 
-# Run the application.
-CMD npm run dev
+# command to run the app
+CMD ["npm", "run", "dev"]

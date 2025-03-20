@@ -318,6 +318,8 @@ Because the dependencies that will be installed via `npm install` will be stored
 Now, our local code is linked to the container, and any changes we make locally will be immediately reflected inside the running container.   
 We can check that by going back to the 'src/App.tsx' file and changing the text in the h1 tag.  
 
+---
+
 If you're using Vite with WSL2, the changes won't be reflected. That's a common issue.  
 More details: https://dev.to/proparitoshsingh/hmr-not-working-in-vite-on-wsl2-5h2k  
 
@@ -333,6 +335,8 @@ export default defineConfig({
 ```
 
 By enabling polling in Vite, you can ensure that HMR (Hot Module Replacement) works reliably with WSL2.  
+
+---
 
 **Side Note about Type Errors in the App.tsx file**:  
 The App.tsx file might report a lot of errors, that's because we're using TypeScript.  
@@ -375,7 +379,7 @@ and then run only one command that triggers running all the containers that make
 And while we can manually create a docker-compose.yaml file on our own, Docker provides us with a command-line tool 
 that generates this file for us. It's called **docker init**.  
 
-## docker init
+## About docker init
 
 **docker init** is a command-line utility introduced by Docker to streamline the process of containerizing applications.  
 This tool automatically generates essential Docker-related files for a project, including: 
@@ -398,6 +402,8 @@ Using **docker init**, we initialize our application with all the files needed t
   - It reads the `package.json` file and installs the specified packages into the `node_modules` folder
 - now we can use `docker init` to generates the Docker-related files for our project
 
+## Using docker init
+
 On running `docker init`, we get asked a few questions based off which it's going to generate the `compose.yaml` file:  
 - select `Node` as the application platform
 - select `npm` as your ppackage manager
@@ -411,10 +417,36 @@ And that's it! The above `docker init` command has generated 4 Docker files for 
 - *compose.yaml*: the file that defines the services, networks, and volumes for our application
 - *README.Docker.md*: a file that explains how to use the above Docker files
 
+## Modifying the new Docker files
+
+- first, let's replace the new Dockerfile with the one we created for our react-docker app
+- then, let's modify the compose.yaml file by renaming the server into "web"
+  - Renaming the server into "web" is a convention for running web apps, but it's not required.  
+- still in the compose.yaml file, we can also remove the environment variables, as we won't use them. 
+- finally, we need to add the volumes for our web service 
+
+Our compose.yaml file should now look like this:
+```yaml
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - 5173:5173
+    volumes:
+      - .:/app
+      - /app/node_modules
+```
+
+The volumes section in our compose.yaml file is used to mount volumes between the host machine and the container.  
+It's similar to what we have done manually when using the `docker run` command (line 311).  
+
+
+
 ### A word about leveraging Docker cache
 
 https://www.kdnuggets.com/how-to-leverage-docker-cache-for-optimizing-build-speeds
 
 
 
-@49/88
+@50/88
