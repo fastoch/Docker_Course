@@ -476,15 +476,34 @@ or when we think it's needed to rebuild the image.
 
 This is where our next Docker feature comes in: `docker compose watch`.  
 
-## Docker Compose watch (September 2023)
+## Docker Compose Watch (September 2023)
 
 This command listens for changes, and does what needs to be done, like:
 - rebuilding our app
-- restarting the container
+- re-running the container
 - and more
 
 With `docker compose watch`, we can do 3 main things: 
-- 
+- **Sync**: the Sync operation moves changed files from the host to the right places in the container
+  - happens while the app is running, beneficial for development
+- **Rebuild**: the Rebuild process starts with the creation of new images, and then updates the services 
+  - beneficial when rolling out changes to applications in production
+- **Sync-restart**: this operation merges the Sync and Rebuild processes
+  - it begins by syncing modifications from the host filesystem to the container's, and then restarts the container
+  - beneficial for development and testing 
+
+## Docker Compose Watch in action
+
+To see it in action, we'll build a basic MERN project.  
+MERN stack = MongoDB + Express + React + Node.js
+- React for the frontend part
+- Node.js + Express for the backend
+- MongoDB for the database
+
+Download the starter_mern-docker code from here:  
+https://github.com/adrianhajdin/docker-course/tree/main
 
 
-@54/88
+
+
+@56/88
