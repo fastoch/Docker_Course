@@ -638,9 +638,40 @@ The same logic applies for the api service:
           target: /app
           action: sync
 ```
-- For demo purposes, we're using a local MongoDB instance 
+
+>[!important]
+>For demo purposes, we're using a local MongoDB instance  
+>To check if the database is live, we can use **MongoDB Compass**
+
+And finally, the db service:
+```yaml
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - anime:/data/db
+```
+- we won't build the db service using a Dockerfile, instead we'll use a Docker Hub image 
+- we map port 27017 on the host machine to port 27017 in the container
+- we mount the anime volume to the /data/db directory in the container
+  - this way, the data inside the mongodb container is persisted even if the container is stopped 
+
+That's it, this compose.yaml file allows us to build 3 different images and run 3 different containers:
+- the React/Vite frontend
+- the Node/Express backend
+- the MongoDB database
+
+These containers will be the services that make up our application.  
+And all of these will come to life through one command: 
+- `docker compose up` if we simply want to start the application (production mode)
+- `docker compose watch` if we want to run the application in watch mode (development mode)
+
+## Running the application
+
+- open up a terminal
+- cd into the root folder of the project
+- run `docker compose watch`
 
 
-
-
-@63/88
+@66/88
