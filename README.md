@@ -561,7 +561,7 @@ version: "3.8"
 >[!important]
 >Actually, Compose V2 (2022-2025) has made the 'version' top-level element obsolete and no longer required.  
 
-- Next, and most important step, we need to define our services:
+- Next, and most important step, we need to define our services/containers to be run:
 ```yaml
 services:
   web:
@@ -569,5 +569,27 @@ services:
   db:
 ```
 
+For the first service, we could use any name, "web" is just a standard naming convention for the frontend.  
 
-@60/88
+- Finally, we define the volumes to be used by our services:
+```yaml
+volumes:
+  anime:
+```
+Here, we create a new volume named "anime" as this app is going to be about showing anime shows.  
+
+Looking at this from high-level overview, 
+```yaml
+services:
+  web:
+  api:
+  db:
+
+volumes:
+  anime:
+```
+
+Now, we need to define each individual service:  
+
+
+@61/88
