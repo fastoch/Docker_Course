@@ -672,6 +672,61 @@ And all of these will come to life through one command:
 - open up a terminal
 - cd into the root folder of the project
 - run `docker compose watch`
+- wait about a minute for Docker to build the images and start the containers
+
+### Testing the frontend
+
+- open up a browser and go to http://localhost:5173
+- now go to frontend/src/App.jsx and duplicate the "Share" link in the navbar as follows:
+```jsx
+<Link to="/create" className="navbar_link">
+  Share
+</Link>
+<Link to="/create" className="navbar_link">
+  Popular
+</Link>
+```
+- save the file, and go back to the browser to see the change applied
+
+### Testing the backend
+
+We can do a quick test by installing a simple package named "colors.js": `npm i colors`  
+This package is used to add some color to the node.js console.  
+
+Back in our code, we can navigate to our backend folder, and open the package.json file.  
+- Split the terminal in VS Code
+- `cd` into the 'backend' folder
+- run `npm i colors`
+
+You'll notice that the colors package has been added to the dependencies in the package.json file.  
+
+You'll also notice in the first terminal that Docker is rebuilding the api service.  
+Which is exactly what we asked for in our compose.yaml file when defining the api service.  
+There was a change in the package.json file, so Docker rebuilt the api service.  
+
+If we open the index.js file (backend folder), we can see that we're importing and enabling the colors package.  
+
+---
+
+# Docker Scout (October 2023)
+
+Before moving on to dockerizing a full stack Next.js app, let's talk about another cool Docker feature.  
+
+When we create container images for our applications, we're essentially stacking layers of existing images and software components.  
+However, some of these layers or components might have security vulnerabilities, making our containers and their applications 
+susceptible to attacks.  
+
+*Docker Scout* is a tool that helps us be proactive about security.  
+It scans our container images, looks at all the layers and software pieces, and creates a detailed 
+list called **"Software Bill of Materials" (SBOM)**.  
+
+This SBOM list includes everything our container is made of.
 
 
-@66/88
+---
+
+# Containerizing a Next.js app
+
+
+
+@72/88
