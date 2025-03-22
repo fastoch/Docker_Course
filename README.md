@@ -558,10 +558,16 @@ Our compose.yaml file defines the 3 services that make up our application:
 version: "3.8"
 ```
 
->[!impoortant]
+>[!important]
 >Actually, Compose V2 (2022-2025) has made the 'version' top-level element obsolete and no longer required.  
 
-- Next, we need to define our services:
+- Next, and most important step, we need to define our services:
+```yaml
+services:
+  web:
+  api:
+  db:
+```
 
 
 @60/88
