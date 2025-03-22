@@ -578,7 +578,7 @@ volumes:
 ```
 Here, we create a new volume named "anime" as this app is going to be about showing anime shows.  
 
-Looking at this from high-level overview:
+Looking at this from a high-level overview:
 ```yaml
 services:
   web:
@@ -595,9 +595,52 @@ services:
   web:
     depends_on:
       - api
+    build: ./frontend
+    ports: 
+      - 5173:5173
+    environment:
+      VITE_API_URL: http://localhost:8000
+    develop:
+      watch:
+        - path: ./frontend/package.json
+          action: rebuild
+        - path: ./frontend/package-lock.json
+          action: rebuild
+        - path: ./frontend
+          target: /app
+          action: sync
 ```
-- the web service depends on the api service, so the api service will be started before the web service
-- 
+- the web service depends on the api service --> the backend will be started before the frontend
+- the build context points to the folder where the Dockerfile for the web service is located
+- Port 5173 on the host machine is mapped to port 5173 in the container (default port used by Vite)
+- specifies the environment variable VITE_API_URL with the value http://localhost:8000
+
+Anything mentioned under `develop` is for the *Docker Compose Watch* mode:
+- we specify the files to watch for changes, and the action to perform when changes are detected
+
+The same logic applies for the api service:
+```yaml
+  api:  
+    depends_on: 
+        - db
+    build: ./backend
+    ports: 
+      - 8000:8000
+    environment: 
+      DB_URL: mongodb://db/anime
+    develop:
+      watch:
+        - path: ./backend/package.json
+          action: rebuild
+        - path: ./backend/package-lock.json
+          action: rebuild
+        - path: ./backend
+          target: /app
+          action: sync
+```
+- For demo purposes, we're using a local MongoDB instance 
 
 
-@61/88
+
+
+@63/88
