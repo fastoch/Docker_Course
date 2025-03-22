@@ -578,7 +578,7 @@ volumes:
 ```
 Here, we create a new volume named "anime" as this app is going to be about showing anime shows.  
 
-Looking at this from high-level overview, 
+Looking at this from high-level overview:
 ```yaml
 services:
   web:
@@ -590,6 +590,14 @@ volumes:
 ```
 
 Now, we need to define each individual service:  
+```yaml
+services:
+  web:
+    depends_on:
+      - api
+```
+- the web service depends on the api service, so the api service will be started before the web service
+- 
 
 
 @61/88
