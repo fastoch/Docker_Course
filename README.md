@@ -402,7 +402,7 @@ Using **docker init**, we initialize our application with all the files needed t
   - It reads the `package.json` file and installs the specified packages into the `node_modules` folder
 - now we can use `docker init` to generates the Docker-related files for our project
 
-## Using docker init
+### Using docker init
 
 On running `docker init`, we get asked a few questions based off which it's going to generate the `compose.yaml` file:  
 - select `Node` as the application platform
@@ -417,7 +417,7 @@ And that's it! The above `docker init` command has generated 4 Docker files for 
 - *compose.yaml*: the file that defines the services, networks, and volumes for our application
 - *README.Docker.md*: a file that explains how to use the above Docker files
 
-## Modifying the new Docker files
+### Modifying the new Docker files
 
 - first, let's replace the new Dockerfile with the one we created for our react-docker app
 - then, let's modify the compose.yaml file by renaming the server into "web"
@@ -445,7 +445,7 @@ It's similar to what we have done manually when using the `docker run` command (
 
 https://www.kdnuggets.com/how-to-leverage-docker-cache-for-optimizing-build-speeds
 
-## Docker Compose up (April 2022)
+# Docker Compose Up (April 2022)
 
 - Run `docker commpose up` to start the application
 
@@ -476,7 +476,7 @@ or when we think it's needed to rebuild the image.
 
 This is where our next Docker feature comes in: `docker compose watch`.  
 
-## Docker Compose Watch (September 2023)
+# Docker Compose Watch (September 2023)
 
 This command listens for changes, and does what needs to be done, like:
 - rebuilding our app
@@ -501,9 +501,17 @@ MERN stack = MongoDB + Express + React + Node.js
 - MongoDB for the database
 
 Download the starter_mern-docker code from here:  
-https://github.com/adrianhajdin/docker-course/tree/main
+https://github.com/adrianhajdin/docker-course/tree/main  
+
+## Containerizing the MERN app
+
+- create a new Dockerfile in the frontend folder 
+- copy the Dockerfile contents from the react-docker folder
+- remove the comments from this Dockerfile
+- create a .dockerignore file in the frontend folder
+- add "node_modules" to the .dockerignore file so Docker ignores this folder
+- copy the Dockerfile in the backend folder
 
 
 
-
-@56/88
+@58/88
