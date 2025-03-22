@@ -492,26 +492,76 @@ With `docker compose watch`, we can do 3 main things:
   - it begins by syncing modifications from the host filesystem to the container's, and then restarts the container
   - beneficial for development and testing 
 
-## Docker Compose Watch in action
 
-To see it in action, we'll build a basic MERN project.  
+To see `docker compose watch` in action, we'll build a basic MERN project.  
 MERN stack = MongoDB + Express + React + Node.js
 - React for the frontend part
 - Node.js + Express for the backend
 - MongoDB for the database
 
-Download the starter_mern-docker code from here:  
+
+# Containerizing a MERN app
+
+Download the starter_mern-docker folder from here and open it in VS Code:  
 https://github.com/adrianhajdin/docker-course/tree/main  
 
-## Containerizing the MERN app
-
-- create a new Dockerfile in the frontend folder 
-- copy the Dockerfile contents from the react-docker folder
+- create a new Dockerfile in the 'frontend' folder 
+- copy the Dockerfile contents from the 'react-docker' folder
 - remove the comments from this Dockerfile
-- create a .dockerignore file in the frontend folder
+- create a .dockerignore file in the 'frontend' folder
 - add "node_modules" to the .dockerignore file so Docker ignores this folder
-- copy the Dockerfile in the backend folder
+- copy the previous Dockerfile in the 'backend' folder and modify it as follows: 
+```dockerfile
+FROM node:20-alpine
+RUN addgroup -S app && adduser -S -g app app
+WORKDIR /app
+COPY package*.json ./
+RUN chown -R app:app /app
+USER app
+RUN npm install
+COPY . .
+EXPOSE 8000
+CMD ["npm", "start"]
+```
+
+The `npm start` command is used to start the Node.js application.  
+It corresponds to the `start` script in the package.json file:
+```json
+"scripts": {
+  "start": "nodemon index.js",
+  ...
+}
+```
+
+- we can also add a .dockerignore file in the 'backend' folder
+- add "node_modules" to the .dockerignore file so Docker ignores this folder
+
+Now we have everything set up, except for one thing: the *compose.yaml* file.  
+This file is what ties the backend and frontend services together.  
+
+## The compose.yaml file
+
+This file allows us to specify everything we want to do with our Docker Compose application.  
+
+- create a new file called *compose.yaml* in the root folder ('mern-docker' in our case)
+- copy the contents from: https://github.com/adrianhajdin/docker-course/blob/main/mern-docker/compose.yml
+
+Our compose.yaml file defines the 3 services that make up our application:
+- **web**: our React frontend 
+- **api**: our Node/Express backend 
+- **db**: our MongoDB database
+
+### Explaining the compose.yaml file
+
+- First, we need to specify the version of Docker Compose we're using:
+```yaml
+version: "3.8"
+```
+
+>[!impoortant]
+>Actually, Compose V2 (2022-2025) has made the 'version' top-level element obsolete and no longer required.  
+
+- Next, we need to define our services:
 
 
-
-@58/88
+@60/88
