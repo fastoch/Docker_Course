@@ -743,6 +743,39 @@ We can use Docker Scout in different places like:
 
 ## Tailoring the Dockerfile
 
+- open the Dockerfile in your next-docker folder
+- delete all its contents
+- add the following code:
+```dockerfile
+# set the latest Node.js version as the base image
+FROM node
+# set the working directory inside the container
+WORKDIR /app
+# copy the package.json and package-lock.json files to the container
+COPY package*.json ./
+# install the dependencies
+RUN npm install
+# copy the rest of the application code to the container
+COPY . .
+# expose port 3000 for the application to listen on
+EXPOSE 3000
+# start the application in development mode
+CMD ["npm", "run", "dev"]
+```
+
+## Tailoring the compose.yaml file
+
+- open the compose.yaml file in your next-docker folder
+- delete all its contents
+- add the following code:
+```yaml
+services:
+  frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+
+```
 
 
-@75/88
+@77/88
