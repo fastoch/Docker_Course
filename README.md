@@ -744,7 +744,7 @@ We can use Docker Scout in different places like:
 ## Tailoring the Dockerfile
 
 - open the Dockerfile in your next-docker folder
-- delete all its contents
+- delete the existing contents
 - add the following code:
 ```dockerfile
 # set the latest Node.js version as the base image
@@ -766,7 +766,7 @@ CMD ["npm", "run", "dev"]
 ## Tailoring the compose.yaml file
 
 - open the compose.yaml file in your next-docker folder
-- delete all its contents
+- delete the existing contents
 - add the following code:
 ```yaml
 services:
@@ -774,8 +774,26 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: ./next.config.js
+          action: rebuild
+        - path: ./
+          target: /app
+          action: sync
+    environment:
+      - DB_URL=mongodb+srv://sujata:rnZzJjIDr3bIDymV@cluster0.hnn88vs.mongodb.net/ 
 
+volumes:
+  tasked:
 ```
 
+In this specific app, we use MongoDB Atlas, so we're passing the connection string as an environment variable.  
 
-@77/88
+
