@@ -704,29 +704,45 @@ You'll also notice in the first terminal that Docker is rebuilding the api servi
 Which is exactly what we asked for in our compose.yaml file when defining the api service.  
 There was a change in the package.json file, so Docker rebuilt the api service.  
 
-If we open the index.js file (backend folder), we can see that we're importing and enabling the colors package.  
-
 ---
 
 # Docker Scout (October 2023)
 
-Before moving on to dockerizing a full stack Next.js app, let's talk about another cool Docker feature.  
+Before moving on to dockerizing a full stack Next.js application, let's talk about another cool Docker feature.  
 
-When we create container images for our applications, we're essentially stacking layers of existing images and software components.  
-However, some of these layers or components might have security vulnerabilities, making our containers and their applications 
-susceptible to attacks.  
+When we create container images for our apps, we essentially stack layers of existing images & software components.  
+Some of these layers or components might have security vulnerabilities, making our containers susceptible to attacks.  
 
 *Docker Scout* is a tool that helps us be proactive about security.  
-It scans our container images, looks at all the layers and software pieces, and creates a detailed 
-list called **"Software Bill of Materials" (SBOM)**.  
+It scans our container images, looks at all the layers and software pieces, and creates a detailed list called  
+a **"Software Bill of Materials" (SBOM)**.  
 
-This SBOM list includes everything our container is made of.
+Then, Docker Scout checks that list against an always updated database of known vulnerabilities.  
+If it finds any weak points, it will alert us so we can fix them before deploying our application.  
 
+We can use Docker Scout in different places like:
+- Docker Desktop
+- Docker Hub
+- Docker CLI
 
 ---
 
 # Containerizing a Next.js app
 
+- copy the starter_next-docker folder from https://github.com/adrianhajdin/docker-course 
+- paste it into VS Code
+- rename the folder to next-docker
+- open up a terminal and cd into the next-docker folder
+- generate the Docker files by running `docker init`
+  - select Node as the application platform
+  - select default version of Node
+  - select npm as the package manager
+  - we don't want to run "nom run build" before starting the server
+  - we want to use the "npm run dev" command to start the app
+  - our server will listen on port 3000
+
+## Tailoring the Dockerfile
 
 
-@72/88
+
+@75/88
